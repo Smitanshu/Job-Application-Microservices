@@ -51,3 +51,23 @@ Clone the repository to your local machine:
 ```bash
 git clone https://github.com/Smitanshu/Job-Application-Microservices.git
 cd Job-Application-Microservices
+```
+
+
+
+### Step 2: Build the Services
+
+To build each service individually, run the following commands:
+
+```bash
+cd companyms
+mvn clean install
+cd ../configServer
+mvn clean install
+cd ../gateway
+mvn clean install
+cd ../jobms
+mvn clean install
+cd ../reviewms
+mvn clean install
+```
