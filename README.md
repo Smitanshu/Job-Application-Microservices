@@ -71,3 +71,74 @@ mvn clean install
 cd ../reviewms
 mvn clean install
 ```
+
+
+Step 4: Access the Services
+Once the services are running, you can access them through the following endpoints:
+
+Company Service: http://localhost:8081
+Config Server: http://localhost:config-server
+Gateway Service: http://localhost:8084
+Job Service: http://localhost:9082
+Review Service: http://localhost:8083
+Step 5: Test the APIs with Postman
+You can test the API by making the following GET request:
+
+Example GET Request:
+bash
+Copy
+Edit
+GET http://localhost:8084/jobs
+Response (JSON):
+
+json
+Copy
+Edit
+[
+    {
+        "id": 1,
+        "title": "SWE Id: ",
+        "maxSalary": "1200",
+        "minSalary": "80000",
+        "description": "Responsible for developing and maintaining software applications.",
+        "location": "Pune",
+        "company": {
+            "id": 1,
+            "name": "Company with id 1",
+            "description": "Service Provider"
+        },
+        "reviews": [
+            {
+                "id": 1,
+                "title": "Great Product review 8 for company",
+                "description": "The product quality is excellent and exceeded expectations.",
+                "rating": 4.5
+            },
+            {
+                "id": 2,
+                "title": "Great Product review 8 for company",
+                "description": "The product quality is excellent and exceeded expectations.",
+                "rating": 4.5
+            }
+        ]
+    }
+]
+Step 6: Health Check and Monitoring
+Spring Boot Actuator provides health check endpoints for each service:
+
+Company Service: http://localhost:8081/actuator/health
+Job Service: http://localhost:9082/actuator/health
+Review Service: http://localhost:8083/actuator/health
+Gateway Service: http://localhost:8084/actuator/health
+You can also access detailed health information and other metrics using Spring Boot Actuator.
+
+Step 7: Zipkin for Tracing
+You can use Zipkin to trace requests across the microservices:
+
+Zipkin Dashboard: http://localhost:9411
+Here, you can view the traces and analyze the flow of requests between services.
+
+Step 8: Service Discovery via Eureka
+Eureka provides service discovery. You can view the registered services via the Eureka dashboard:
+
+Eureka Dashboard: http://localhost:8761/eureka/
