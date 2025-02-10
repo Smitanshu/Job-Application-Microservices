@@ -28,14 +28,10 @@ public class JobDTO {
     public void setCompany(Company company) {
         this.company = company;
     }
-
     private String description;
     private String location;
     private Company company;
     private List<Review> reviews;
-
-
-
 
     public String getDescription() {
         return description;

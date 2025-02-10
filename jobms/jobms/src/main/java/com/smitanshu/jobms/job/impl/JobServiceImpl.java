@@ -1,6 +1,5 @@
 package com.smitanshu.jobms.job.impl;
 
-
 import com.smitanshu.jobms.job.Job;
 import com.smitanshu.jobms.job.JobRepository;
 import com.smitanshu.jobms.job.JobService;
@@ -10,13 +9,9 @@ import com.smitanshu.jobms.job.dto.JobDTO;
 import com.smitanshu.jobms.job.external.Company;
 import com.smitanshu.jobms.job.external.Review;
 import com.smitanshu.jobms.job.mapper.JobMapper;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -50,7 +45,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     //@CircuitBreaker(name = "companyBreaker", fallbackMethod = "companyBreakerFallBack")
-   // @Retry(name = "companyBreaker", fallbackMethod = "companyBreakerFallBack")
+    // @Retry(name = "companyBreaker", fallbackMethod = "companyBreakerFallBack")
     @RateLimiter(name = "companyBreaker")
     public List<JobDTO> findAll() {
         System.out.println("Attempt:" + ++attempt);
@@ -69,11 +64,9 @@ public class JobServiceImpl implements JobService {
 
 
     private JobDTO convertToDTO(Job job) {
-        //Using Feign Client
+        //Using Feign Client :
         Company company = companyClient.getCompany(job.getCompanyId());
         List<Review> reviews = reviewClient.getReview(job.getCompanyId());
-
-
         JobDTO jobDTO = JobMapper.mapTojobWithCompanyDTO(job, company, reviews);
         return jobDTO;
 
@@ -96,22 +89,16 @@ public class JobServiceImpl implements JobService {
     @Override
     public boolean deleteJobById(Long id) {
         Optional<Job> job = jobRepository.findById(id);
-
-
         if (job.isPresent()) {
             jobRepository.deleteById(id);
             return true;
         }
         return false;
-
-
     }
 
     @Override
     public boolean updateJob(Long id, Job updatedJob) {
-
         Optional<Job> jobOptional = jobRepository.findById(id);
-
         if (jobOptional.isPresent()) {
             Job job = jobOptional.get();
             job.setDescription(updatedJob.getDescription());
@@ -119,15 +106,11 @@ public class JobServiceImpl implements JobService {
             job.setLocation(updatedJob.getLocation());
             job.setMaxSalary(updatedJob.getMaxSalary());
             job.setMinSalary(updatedJob.getMinSalary());
-
-
             jobRepository.save(job);
             return true;
         }
-
         return false;
     }
-
 
 }
 
